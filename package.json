@@ -1,6 +1,6 @@
 {
   "name": "react-conditional-renderer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "React Conditional Renderer is a higher order component (HOC) which wraps your component and conditionally renders the wrapped component.",
   "main": "./build/ConditionalRenderer.js",
   "scripts": {
