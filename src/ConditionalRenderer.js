@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 /**
- * ConditionalRenderer HOC to protect routes
+ * conditionalRenderer HOC to protect routes
  * @param {[type]} Component         Component to protect from rendering
- * @param {[type]} options.validator Function which receives state as a parameter and allows you to provide any condition. 
- * @param {[type]} options.validationSuccess Function post validation success. If not passed component will be rendered as default.
- * @param {[type]} options.validationFailure function post validation failure. If not passed component will not be rendered.
+ * @param {[type]} options.condition Function which receives state as a parameter and allows you to provide any condition. 
+ * @param {[type]} options.onConditionSuccess Function post condition success. If not passed component will be rendered as default.
+ * @param {[type]} options.onConditionFailure function post condition failure. If not passed component will not be rendered.
  */
-export default function ConditionalRenderer(Component, { validator, validationSuccess, validationFailure }) {
+export default function conditionalRenderer(Component, { condition, onConditionSuccess, onConditionFailure }) {
   
   class WrapperComponent extends React.Component {
     constructor(props) {
@@ -20,15 +20,15 @@ export default function ConditionalRenderer(Component, { validator, validationSu
       this.authorize(this.props);
     }
     authorize(props) {
-      if (validator(props)) {
+      if (condition(props)) {
         // if on validation success you may still not want the component to be rendered
-        this.shouldRender = typeof validationSuccess === 'function' ? validationSuccess(props) : true;
+        this.shouldRender = typeof onConditionSuccess === 'function' ? onConditionSuccess(props) : true;
         if (this.shouldRender === 'undefined') {
           this.shouldRender = true;
         }
       } else {
         // if on validation failure you may still want the component to be rendered
-        this.shouldRender = typeof validationFailure === 'function' ? validationFailure(props) : false;
+        this.shouldRender = typeof onConditionFailure === 'function' ? onConditionFailure(props) : false;
         if (this.shouldRender === 'undefined') {
           this.shouldRender = false;
         }
